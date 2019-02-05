@@ -1,23 +1,25 @@
 import 'package:http/http.dart' show get;
 import 'dart:convert';
 
+
 import 'models/user_model.dart';
 
+const String apiKey = '?api_key=123456';
 const String urlUsers =
-    "http://manchasoft.ddns.net:4325/MCS/dbGestion_dat/v1/le_usuario?api_key=123456";
+    "http://manchasoft.ddns.net:4325/MCS/dbGestion_dat/v1/le_usuario";
 
-class FetchData {
-  List<UserModel> customers = [];
+class WebServices {
 
-  static void fetchCustomers() async{
-    final response =  await get(urlUsers);
-    final obtainedJson = json.decode(response.body);
-    //print(obtainedJson["le_usuario"][0]);
-    final customer = (obtainedJson["le_usuario"][0]);
-    UserModel.fromJson(customer);
-  }
-
-  static fetchArticles(){
-
+  Future<Map> fetchUsersTable() async {
+    final _response =  await get('$urlUsers$apiKey');
+    final _obtainedJson = json.decode(_response.body);
+//    print(_obtainedJson['errors']);
+    if(_obtainedJson['errors'] == null){
+      return json.decode(_response.body);
+//    print(usersTable.totalCount);
+//    usersTable.users.forEach((User user) => print(user.name));
+    }else{
+      throw Exception('Fallo al obtener datos');
+    }
   }
 }
