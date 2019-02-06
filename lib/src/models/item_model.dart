@@ -17,7 +17,7 @@ String itemsToJson(Items data) {
 class Items {
   int count;
   int totalCount;
-  List<Articulo> articulo;
+  List<Article> articulo;
 
   Items({
     this.count,
@@ -28,7 +28,7 @@ class Items {
   factory Items.fromJson(Map<String, dynamic> json) => new Items(
     count: json["count"],
     totalCount: json["total_count"],
-    articulo: new List<Articulo>.from(json["mg_articulo"].map((x) => Articulo.fromJson(x))),
+    articulo: new List<Article>.from(json["mg_articulo"].map((x) => Article.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -38,18 +38,18 @@ class Items {
   };
 }
 
-class Articulo {
+class Article {
   int id;
   String ref;
   String name;
 
-  Articulo({
+  Article({
     this.id,
     this.ref,
     this.name,
   });
 
-  factory Articulo.fromJson(Map<String, dynamic> json) => new Articulo(
+  factory Article.fromJson(Map<String, dynamic> json) => new Article(
     id: json["id"],
     ref: json["ref"],
     name: json["name"],

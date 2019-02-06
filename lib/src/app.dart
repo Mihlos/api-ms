@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'widgets/tab_bar.dart';
 import 'widgets/tabbar_views.dart';
+import 'webservices.dart';
 
 class DataApp extends StatefulWidget {
   @override
@@ -26,7 +27,13 @@ class _DataAppState extends State<DataApp> {
           title: Text('Consumo API Manchasoft'),
           bottom: TabBar(tabs: tabsMasters),
         ),
-        body: buildTabBarView(),
+        body: TabBarView(
+          children: [
+            //SE ENVIA LA CLASE PARA MANDAR A UN CONSTRUCTOR U OTRO Y EL METODO.
+            futureBuilder('Person', getPeople()),
+            futureBuilder('Article', getItem()),
+          ],
+        ),
       ),
     );
   }
