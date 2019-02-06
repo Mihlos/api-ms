@@ -2,8 +2,6 @@
 //
 //     final users = usersFromJson(jsonString);
 
-import 'dart:convert';
-
 class UserTable{
   final int count;
   final int totalCount;
