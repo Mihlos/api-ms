@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' show get;
+import 'dart:async';
 
 import 'models/user_model.dart';
+import 'models/item_model.dart';
+import 'webservices.dart';
 
 const String apiKey = '?api_key=123456';
 const String urlUsers =
@@ -62,7 +65,25 @@ class _DataAppState extends State<DataApp> {
               },
             ),
             //Articulos
-            Text('ARTICULOS'),
+            FutureBuilder<Items>(
+              future: getItem(),
+              builder: (BuildContext context, snapshot) {
+                if(snapshot.connectionState == ConnectionState.done) {
+                  if(snapshot.hasError){
+                    return ErrorWidget(snapshot.error.toString());
+                  }
+                  return ListView.builder(
+                      itemCount: snapshot.data == null ? 0 : snapshot.data.articulo.length,
+                      itemBuilder: (BuildContext context, int index ){
+                        return Card(
+                          child: itemBuilder(snapshot.data.articulo[index]),
+                        );
+                      },);
+                }
+                else
+                  return Center(child: CircularProgressIndicator());
+              },
+            ),
           ],
         ),
       ),
@@ -74,6 +95,16 @@ class _DataAppState extends State<DataApp> {
       padding: EdgeInsets.all(20.0),
       child: Text(
         user.name,
+        style: TextStyle(fontSize: 20.0),
+      ),
+    );
+  }
+
+  Widget itemBuilder(Articulo articulo) {
+    return Container(
+      padding: EdgeInsets.all(20.0),
+      child: Text(
+        articulo.name,
         style: TextStyle(fontSize: 20.0),
       ),
     );
